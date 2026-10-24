@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speakout A2 — Unit 2 Revision Test</title>
+<style>
+:root{--ink:#252333;--muted:#6b687a;--paper:#fff;--bg:#f3f1f8;--accent:#6750a4;--accent2:#e9e2ff;--good:#176b45;--goodbg:#e7f6ee;--bad:#a83242;--badbg:#fff0f1;--line:#e4e0ed}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#33284e,#6750a4);color:white;padding:30px 18px 26px}header .inner,main{max-width:900px;margin:auto}h1{margin:0 0 6px;font-size:clamp(1.6rem,4vw,2.3rem)}header p{margin:0;color:#eee8ff}
+main{padding:20px 14px 50px}.intro,.section,.result{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 5px 18px #2920440b}
+.progressrow{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:.92rem}.track{height:8px;background:#ebe7f3;border-radius:99px;overflow:hidden;margin-top:9px}.bar{height:100%;width:0;background:var(--accent);transition:width .2s}
+h2{font-size:1.2rem;margin:0 0 6px} .sub{color:var(--muted);margin:0 0 16px;font-size:.94rem}
+.q{padding:15px 0;border-top:1px solid var(--line)}.q:first-of-type{border-top:0}.q p{margin:0 0 10px;font-weight:600}.num{color:var(--accent);font-weight:800;margin-right:6px}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}.opt{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;background:#fff;font-weight:400}.opt:hover{border-color:var(--accent)}.opt input{margin-top:5px;accent-color:var(--accent)}.opt:has(input:checked){background:var(--accent2);border-color:var(--accent)}
+input[type=text],select{font:inherit;padding:10px;border:1px solid #cfc9dd;border-radius:9px;max-width:100%}.blank{width:min(100%,280px)}
+.feedback{display:none;margin-top:10px;padding:10px 12px;border-radius:9px;font-size:.94rem}.feedback.show{display:block}.feedback.good{background:var(--goodbg);color:var(--good)}.feedback.bad{background:var(--badbg);color:var(--bad)}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:12px 18px;cursor:pointer}.primary{background:var(--accent);color:white}.secondary{background:#ebe7f3;color:var(--ink)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.result{display:none}.result h2{font-size:1.5rem}.score{font-size:2.5rem;font-weight:850;color:var(--accent);line-height:1.2}.pill{display:inline-block;border-radius:99px;padding:4px 10px;background:var(--accent2);font-size:.85rem;font-weight:700}.reviewitem{padding:12px 0;border-top:1px solid var(--line)}.reviewitem p{margin:5px 0}.reviewitem .why{color:var(--muted);font-size:.94rem}.small{font-size:.9rem;color:var(--muted)}footer{text-align:center;color:var(--muted);padding:12px;font-size:.85rem}
+@media(max-width:520px){.intro,.section,.result{padding:15px}.options{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="inner"><h1>Speakout A2 · Unit 2</h1><p>Grammar, Vocabulary &amp; How to… · Revision Test</p></div></header>
+<main>
+<div class="intro">
+  <div class="progressrow"><span id="progressText">0 of 40 answered</span><span>Take your time!</span></div><div class="track"><div class="bar" id="progressBar"></div></div>
+  <p>Choose or type the best answer. Submit when you’re finished to see your score, explanations and a topic-by-topic review. This is an original practice test based on the skills in the examples.</p>
+  <label for="studentName"><strong>Name (optional):</strong></label> <input id="studentName" type="text" placeholder="Your name">
+</div>
+<form id="quiz"></form>
+<div class="actions"><button class="primary" id="submitBtn" type="button">Check my answers</button><button class="secondary" id="resetBtn" type="button">Try again</button></div>
+<section class="result" id="result" aria-live="polite"></section>
+<footer>Practice material · Speakout A2 Unit 2 topics</footer>
+</main>
+<script>
+const questions = [
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"I usually have ___ egg and ___ toast for breakfast.",opts:["a / a","an / some","some / an","an / a"],a:1,why:"Use “an” before a vowel sound in “egg”; “some” is natural with uncountable “toast”."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"Would you like ___ soup?",opts:["a","any","some","an"],a:2,why:"In offers and polite requests, “some” is commonly used."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"There isn’t ___ cheese in the fridge.",opts:["some","a","any","an"],a:2,why:"Use “any” in negative sentences with uncountable nouns."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"We need ___ tomatoes for the salad.",opts:["some","any","an","a"],a:0,why:"Use “some” in affirmative sentences with plural countable nouns."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"My brother is ___ vegetarian.",opts:["an","a","some","any"],a:1,why:"“Vegetarian” begins with a consonant sound, so use “a”."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"How ___ sugar do you take in your tea?",opts:["many","much","some","a"],a:1,why:"“Sugar” is uncountable, so the question uses “how much”."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"Let’s buy ___ noodles for dinner.",opts:["a","an","some","any"],a:2,why:"Use “some” for an affirmative suggestion with a plural noun."},
+{section:"1 · Grammar: a / an / some / any",topic:"Articles & quantifiers",type:"mc",q:"Do you have ___ apples?",opts:["some","any","an","a"],a:1,why:"Questions asking whether something exists or is available commonly use “any”."},
+{section:"2 · Grammar: adverbs of frequency",topic:"Frequency adverbs",type:"mc",q:"I ___ eat fast food; perhaps once or twice a year.",opts:["often","hardly ever","usually","every day"],a:1,why:"“Hardly ever” means almost never, matching “once or twice a year”."},
+{section:"2 · Grammar: adverbs of frequency",topic:"Frequency adverbs",type:"mc",q:"She ___ goes to the gym on Mondays because it’s part of her routine.",opts:["never","usually","hardly ever","once"],a:1,why:"“Usually” describes something that happens regularly."},
+{section:"2 · Grammar: adverbs of frequency",topic:"Frequency adverbs",type:"mc",q:"We go to that restaurant ___ a month — about twelve times a year.",opts:["once","every","always","hardly"],a:0,why:"“Once a month” gives the frequency as one time each month."},
+{section:"2 · Grammar: adverbs of frequency",topic:"Frequency adverbs",type:"mc",q:"My parents work during the week, so they relax ___ .",opts:["at the weekend","every day","never","three times"],a:0,why:"“At the weekend” names the time when they relax."},
+{section:"2 · Grammar: adverbs of frequency",topic:"Frequency adverbs",type:"mc",q:"He is very busy. He ___ has time to watch films.",opts:["often","always","hardly ever","every day"],a:2,why:"“Hardly ever” means he almost never has time."},
+{section:"2 · Grammar: adverbs of frequency",topic:"Frequency adverbs",type:"mc",q:"Choose the natural word order.",opts:["I drink usually coffee in the morning.","I usually drink coffee in the morning.","Usually I drink always coffee.","I drink coffee usually always."],a:1,why:"Frequency adverbs usually go before the main verb: “I usually drink…”"},
+{section:"3 · Grammar: Present Simple",topic:"Present Simple",type:"mc",q:"My sister ___ photos when she travels.",opts:["take","taking","takes","is take"],a:2,why:"With he/she/it in the Present Simple, add -s: “takes”."},
+{section:"3 · Grammar: Present Simple",topic:"Present Simple",type:"mc",q:"Some students ___ doing homework, but they do it every day.",opts:["hates","hate","hating","doesn’t like"],a:1,why:"“Some students” is plural, so use the base form “hate”."},
+{section:"3 · Grammar: Present Simple",topic:"Present Simple",type:"mc",q:"My dog likes ___ in the park.",opts:["run","runs","running","to running"],a:2,why:"“Like” can be followed by a verb in the -ing form: “likes running”."},
+{section:"3 · Grammar: Present Simple",topic:"Present Simple",type:"mc",q:"Lois doesn’t like ___ in the city.",opts:["drive","drives","driving","to driving"],a:2,why:"After “like”, use a noun or an -ing form; “driving” is correct here."},
+{section:"3 · Grammar: Present Simple",topic:"Present Simple",type:"mc",q:"Milan loves ___ to parties.",opts:["go","goes","going","to going"],a:2,why:"“Love” is commonly followed by the -ing form: “loves going”."},
+{section:"3 · Grammar: Present Simple",topic:"Present Simple",type:"mc",q:"___ your brother work on Saturdays?",opts:["Do","Does","Is","Has"],a:1,why:"Use “does” to form Present Simple questions with he/she/it."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"I eat ___ for breakfast with milk.",opts:["cereal","oil","salmon","aubergine"],a:0,why:"Cereal is a common breakfast food eaten with milk."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"My favourite vegetable is an ___.",opts:["noodle","aubergine","lemonade","sugar"],a:1,why:"An aubergine is a vegetable; the other options are not vegetables."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"I like a lot of ___ in my salad.",opts:["tomato","tomatoes","oil of","lemonades"],a:1,why:"“Tomatoes” is the plural countable noun that fits the sentence."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"I love prawns and fish like ___.",opts:["salmon","sugar","noodles","oil"],a:0,why:"Salmon is a type of fish."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"I use ___, not butter, when I cook.",opts:["lemonade","oil","cereal","aubergine"],a:1,why:"Oil is a cooking fat often used instead of butter."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"My favourite dinner is chicken with ___.",opts:["noodles","sugar","lemonade","oil"],a:0,why:"Noodles are a food that can be served with chicken."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"I put a little ___ in my coffee.",opts:["salmon","aubergine","sugar","noodles"],a:2,why:"Sugar is commonly added to coffee."},
+{section:"4 · Vocabulary: food & cooking",topic:"Food vocabulary",type:"mc",q:"Which word means a drink made with lemons?",opts:["lemonade","salmon","cereal","aubergine"],a:0,why:"Lemonade is a drink made with lemon."},
+{section:"5 · Vocabulary: routines",topic:"Daily routines",type:"mc",q:"Karl ___ early on Saturday morning.",opts:["gets up","checks","spends time","meets"],a:0,why:"“Get up” means to leave your bed and start the day."},
+{section:"5 · Vocabulary: routines",topic:"Daily routines",type:"mc",q:"After breakfast, she ___ her messages.",opts:["goes","checks","gets up","meets"],a:1,why:"The natural collocation is “check your messages”."},
+{section:"5 · Vocabulary: routines",topic:"Daily routines",type:"mc",q:"We ___ our friends for coffee after work.",opts:["meet","go up","check","spend"],a:0,why:"We “meet” people when we see them socially."},
+{section:"5 · Vocabulary: routines",topic:"Daily routines",type:"mc",q:"On Sundays, he ___ shopping at the supermarket.",opts:["does","goes","checks","gets"],a:1,why:"The collocation is “go shopping”."},
+{section:"5 · Vocabulary: routines",topic:"Daily routines",type:"mc",q:"They ___ time with their children in the evening.",opts:["spend","check","go","get"],a:0,why:"The expression is “spend time with someone”."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"A waiter asks: “Are you ready to order?” You want to order now. What do you say?",opts:["Yes, please.","No, the bill.","Come this way.","I’m a starter."],a:0,why:"“Yes, please” is a natural response when you’re ready to order."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"You want to ask politely for a table for two. Choose the best phrase.",opts:["Could we have a table for two, please?","We are table two.","Give two table.","Are you ready a table?"],a:0,why:"“Could we have…?” is a polite way to make a request."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"Which item do you usually order before the main course?",opts:["A starter","The bill","A service charge","A waiter"],a:0,why:"A starter is the first course, served before the main course."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"What do you ask for when you want to pay?",opts:["The menu","The bill","A side dish","A reservation"],a:1,why:"In a restaurant, you ask for the bill when you want to pay."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"Complete the order: “I’d ___ the beefburger with chips, please.”",opts:["like","want to","like to having","likes"],a:0,why:"The polite ordering phrase is “I’d like…” followed by the item."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"A waiter asks, “Would you like something to drink?” Choose a suitable reply.",opts:["Yes, some lemonade, please.","I’m ready the bill.","Come this way, please.","No, I like a starter."],a:0,why:"The reply politely names the drink you would like."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"A restaurant adds 10% to the bill for the service. What is it called?",opts:["A starter","A service charge","A main course","A dessert"],a:1,why:"A service charge is an additional amount added for service."},
+{section:"6 · How to… restaurant language",topic:"Restaurant language",type:"mc",q:"The waiter says, “Come this way.” What does the waiter mean?",opts:["Follow me.","Pay now.","Choose a dessert.","Order a drink."],a:0,why:"“Come this way” means follow the speaker in the direction they indicate."}
+];
+const form=document.getElementById('quiz');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let submitted=false;
+let html='', lastSection='';
+questions.forEach((q,i)=>{
+ if(q.section!==lastSection){html+=`<section class="section"><h2>${esc(q.section)}</h2><p class="sub">Choose one answer for each question.</p>`;lastSection=q.section;}
+ html+=`<div class="q" id="q${i}"><p><span class="num">${i+1}.</span>${esc(q.q)}</p><div class="options">`;
+ q.opts.forEach((op,j)=>{html+=`<label class="opt"><input type="radio" name="q${i}" value="${j}"><span>${esc(op)}</span></label>`;});
+ html+=`</div><div class="feedback" id="fb${i}"></div></div>`;
+ if(i===questions.length-1 || questions[i+1].section!==q.section) html+='</section>';
+});
+form.innerHTML=html;
+function updateProgress(){const n=questions.filter((q,i)=>form.querySelector(`input[name="q${i}"]:checked`)).length;document.getElementById('progressText').textContent=`${n} of ${questions.length} answered`;document.getElementById('progressBar').style.width=(n/questions.length*100)+'%';}
+form.addEventListener('change',()=>{if(!submitted)updateProgress();});
+document.getElementById('submitBtn').addEventListener('click',()=>{
+ submitted=true;let score=0;const topics={};
+ questions.forEach((q,i)=>{const picked=form.querySelector(`input[name="q${i}"]:checked`);const val=picked?Number(picked.value):-1;const ok=val===q.a;if(ok)score++;if(!topics[q.topic])topics[q.topic]={correct:0,total:0};topics[q.topic].total++;if(ok)topics[q.topic].correct++;
+ const fb=document.getElementById('fb'+i);fb.className='feedback show '+(ok?'good':'bad');fb.innerHTML=`<strong>${ok?'Correct':'Not quite'}${picked?'':' · No answer selected'}.</strong> ${esc(q.why)}${!ok?` <span>Correct answer: <strong>${esc(q.opts[q.a])}</strong>.</span>`:''}`;
+ document.querySelectorAll(`#q${i} input`).forEach(el=>el.disabled=true);
+ });
+ const pct=Math.round(score/questions.length*100);let label=pct>=90?'Excellent work!':pct>=75?'Good job!':pct>=60?'Getting there!':'Keep practising — you can do it!';
+ const name=document.getElementById('studentName').value.trim();
+ let topicHtml=Object.entries(topics).map(([name,t])=>`<div class="reviewitem"><strong>${esc(name)}</strong><p>${t.correct}/${t.total} correct · ${Math.round(t.correct/t.total*100)}%</p><div class="track"><div class="bar" style="width:${t.correct/t.total*100}%"></div></div></div>`).join('');
+ let mistakes=questions.map((q,i)=>({q,i,p:form.querySelector(`input[name="q${i}"]:checked`)})).filter(x=>!x.p||Number(x.p.value)!==x.q.a);
+ let review=mistakes.length?mistakes.map(({q,i,p})=>`<div class="reviewitem"><strong>Q${i+1}. ${esc(q.q)}</strong><p>Your answer: ${p?esc(q.opts[Number(p.value)]):'<em>Not answered</em>'}</p><p><strong>Correct answer:</strong> ${esc(q.opts[q.a])}</p><p class="why">${esc(q.why)}</p></div>`).join(''):'<p>Perfect score — no mistakes to review. 🎉</p>';
+ const res=document.getElementById('result');res.style.display='block';res.innerHTML=`<h2>${name?`Well done, ${esc(name)}!`:label}</h2><div class="score">${pct}%</div><p><strong>${score} / ${questions.length}</strong> correct · ${label}</p><p class="small">Your result is based on all questions; unanswered items count as incorrect.</p><h2>Topic overview</h2>${topicHtml}<h2 style="margin-top:22px">Review your answers</h2>${review}`;
+ document.getElementById('submitBtn').disabled=true;document.getElementById('submitBtn').textContent='Test completed';res.scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{submitted=false;form.reset();questions.forEach((q,i)=>{const fb=document.getElementById('fb'+i);fb.className='feedback';fb.innerHTML='';document.querySelectorAll(`#q${i} input`).forEach(el=>el.disabled=false);});document.getElementById('result').style.display='none';document.getElementById('submitBtn').disabled=false;document.getElementById('submitBtn').textContent='Check my answers';updateProgress();window.scrollTo({top:0,behavior:'smooth'});});
+updateProgress();
+</script>
+</body>
+</html>
